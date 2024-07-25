@@ -1,0 +1,13 @@
+C:\Dev\BuildSync\ProjectEvaluationAPI\publish\ProjectEvaluationAPI.exe
+C:\Dev\BuildSync\ProjectEvaluationAPI\publish\appsettings.Development.json
+C:\Dev\BuildSync\ProjectEvaluationAPI\publish\appsettings.json
+C:\Dev\BuildSync\ProjectEvaluationAPI\publish\ProjectEvaluationAPI.dll
+C:\Dev\BuildSync\ProjectEvaluationAPI\publish\ProjectEvaluationAPI.deps.json
+C:\Dev\BuildSync\ProjectEvaluationAPI\publish\ProjectEvaluationAPI.runtimeconfig.json
+C:\Dev\BuildSync\ProjectEvaluationAPI\publish\ProjectEvaluationAPI.pdb
+C:\Dev\BuildSync\ProjectEvaluationAPI\publish\Microsoft.AspNetCore.OpenApi.dll
+C:\Dev\BuildSync\ProjectEvaluationAPI\publish\Microsoft.OpenApi.dll
+C:\Dev\BuildSync\ProjectEvaluationAPI\publish\Newtonsoft.Json.dll
+C:\Dev\BuildSync\ProjectEvaluationAPI\publish\Swashbuckle.AspNetCore.Swagger.dll
+C:\Dev\BuildSync\ProjectEvaluationAPI\publish\Swashbuckle.AspNetCore.SwaggerGen.dll
+C:\Dev\BuildSync\ProjectEvaluationAPI\publish\Swashbuckle.AspNetCore.SwaggerUI.dll

@@ -1,0 +1,7 @@
+C:\Dev\BuildSync\ProjectEvaluationAPI\obj\Debug\net5.0\ProjectEvaluationAPI.csproj.AssemblyReference.cache
+C:\Dev\BuildSync\ProjectEvaluationAPI\obj\Debug\net5.0\ProjectEvaluationAPI.GeneratedMSBuildEditorConfig.editorconfig
+C:\Dev\BuildSync\ProjectEvaluationAPI\obj\Debug\net5.0\ProjectEvaluationAPI.AssemblyInfoInputs.cache
+C:\Dev\BuildSync\ProjectEvaluationAPI\obj\Debug\net5.0\ProjectEvaluationAPI.AssemblyInfo.cs
+C:\Dev\BuildSync\ProjectEvaluationAPI\obj\Debug\net5.0\ProjectEvaluationAPI.csproj.CoreCompileInputs.cache
+C:\Dev\BuildSync\ProjectEvaluationAPI\obj\Debug\net5.0\ProjectEvaluationAPI.MvcApplicationPartsAssemblyInfo.cs
+C:\Dev\BuildSync\ProjectEvaluationAPI\obj\Debug\net5.0\ProjectEvaluationAPI.MvcApplicationPartsAssemblyInfo.cache

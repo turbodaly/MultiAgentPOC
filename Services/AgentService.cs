@@ -15,6 +15,7 @@ public class AgentService
         _logger = logger;
     }
 
+    // Compliance Evaluation
     public async Task<EvaluationResult> EvaluateComplianceAsync(ProjectData projectData)
     {
         var prompt = $"You are a compliance officer. Ensure that the project '{projectData.ProjectName}' meets all regulatory requirements. " +
@@ -23,20 +24,10 @@ public class AgentService
                      $"Inspections done by: {(projectData.RegulationIsCompliant ? "All inspections passed" : "Inspections not passed")}. " +
                      $"Safety Check: {projectData.SafetyCheckDescription} - {projectData.SafetyCheckComments}. " +
                      $"Assessment: {projectData.AssessmentDescription} - {projectData.AssessmentComments}.";
-        try
-        {
-            var response = await _openAIService.CallOpenAIAsync(prompt);
-            var messageContent = ExtractMessageContent(response);
-            _logger.LogInformation("ComplianceAgent response: {Response}", messageContent);
-            return new EvaluationResult { Agent = "ComplianceAgent", IsMet = !messageContent.Contains("not compliant"), Message = messageContent, Conversation = prompt };
-        }
-        catch (HttpRequestException ex)
-        {
-            _logger.LogError(ex, "Error calling OpenAI service for compliance evaluation.");
-            throw;
-        }
+        return await EvaluateAgentAsync("ComplianceAgent", prompt);
     }
 
+    // Budget Evaluation
     public async Task<EvaluationResult> EvaluateBudgetAsync(ProjectData projectData)
     {
         var prompt = $"You are a budget analyst. Check if the project '{projectData.ProjectName}' is within the budget. " +
@@ -44,16 +35,50 @@ public class AgentService
                      $"Comments: {projectData.BudgetComments}. " +
                      $"Resource: {projectData.ResourceName} - {projectData.ResourceComments}. " +
                      $"Milestone: {projectData.MilestoneDescription} - {projectData.MilestoneComments}.";
+        return await EvaluateAgentAsync("BudgetAgent", prompt);
+    }
+
+    // Safety Evaluation
+    public async Task<EvaluationResult> EvaluateSafetyAsync(ProjectData projectData)
+    {
+        var prompt = $"You are a safety officer. Evaluate the safety of the project '{projectData.ProjectName}'. " +
+                     $"Safety Check: {projectData.SafetyCheckDescription}. " +
+                     $"Comments: {projectData.SafetyCheckComments}.";
+        return await EvaluateAgentAsync("SafetyAgent", prompt);
+    }
+
+    // Resource Evaluation
+    public async Task<EvaluationResult> EvaluateResourcesAsync(ProjectData projectData)
+    {
+        var prompt = $"You are a resource manager. Assess the resource availability for the project '{projectData.ProjectName}'. " +
+                     $"Resource: {projectData.ResourceName}. " +
+                     $"Comments: {projectData.ResourceComments}. " +
+                     $"Availability: {(projectData.ResourceAvailable ? "Available" : "Not Available")}.";
+        return await EvaluateAgentAsync("ResourceAgent", prompt);
+    }
+
+    // Environmental Impact Evaluation
+    public async Task<EvaluationResult> EvaluateEnvironmentalImpactAsync(ProjectData projectData)
+    {
+        var prompt = $"You are an environmental specialist. Assess the environmental impact of the project '{projectData.ProjectName}'. " +
+                     $"Assessment: {projectData.AssessmentDescription}. " +
+                     $"Comments: {projectData.AssessmentComments}. " +
+                     $"Passed: {(projectData.AssessmentIsPassed ? "Yes" : "No")}.";
+        return await EvaluateAgentAsync("EnvironmentalAgent", prompt);
+    }
+
+    private async Task<EvaluationResult> EvaluateAgentAsync(string agent, string prompt)
+    {
         try
         {
             var response = await _openAIService.CallOpenAIAsync(prompt);
             var messageContent = ExtractMessageContent(response);
-            _logger.LogInformation("BudgetAgent response: {Response}", messageContent);
-            return new EvaluationResult { Agent = "BudgetAgent", IsMet = !messageContent.Contains("over budget"), Message = messageContent, Conversation = prompt };
+            _logger.LogInformation($"{agent} response: {{Response}}", messageContent);
+            return new EvaluationResult { Agent = agent, IsMet = !messageContent.Contains("not compliant"), Message = messageContent, Conversation = prompt };
         }
         catch (HttpRequestException ex)
         {
-            _logger.LogError(ex, "Error calling OpenAI service for budget evaluation.");
+            _logger.LogError(ex, $"Error calling OpenAI service for {agent.ToLower()} evaluation.");
             throw;
         }
     }

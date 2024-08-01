@@ -1,8 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 [ApiController]
 [Route("api/[controller]")]
@@ -21,31 +20,32 @@ public class EvaluationController : ControllerBase
     public async Task<IActionResult> EvaluateProject([FromBody] ProjectData projectData)
     {
         _logger.LogInformation("Received evaluation request for project ID {ProjectId}", projectData.ProjectId);
-        var results = new List<EvaluationResult>();
 
-        try
+        var complianceResult = await _agentService.EvaluateComplianceAsync(projectData);
+        var budgetResult = await _agentService.EvaluateBudgetAsync(projectData);
+        var safetyResult = await _agentService.EvaluateSafetyAsync(projectData);
+        var resourceResult = await _agentService.EvaluateResourcesAsync(projectData);
+        var environmentalResult = await _agentService.EvaluateEnvironmentalImpactAsync(projectData);
+
+        var results = new List<EvaluationResult>
         {
-            results.Add(await _agentService.EvaluateComplianceAsync(projectData));
-            results.Add(await _agentService.EvaluateBudgetAsync(projectData));
-            // Call other agents similarly...
-        }
-        catch (HttpRequestException ex)
-        {
-            _logger.LogError(ex, "Error occurred while evaluating project ID {ProjectId}", projectData.ProjectId);
-            return StatusCode(500, "Internal server error");
-        }
+            complianceResult,
+            budgetResult,
+            safetyResult,
+            resourceResult,
+            environmentalResult
+        };
 
         var finalDecision = await _agentService.GetFinalDecisionAsync(results);
-        projectData.ConversationHistory = finalDecision;
-        projectData.FinalDecision = finalDecision.Contains("Approved") ? "Approved" : "Not Approved";
 
-        _logger.LogInformation("Evaluation completed for project ID {ProjectId}. Final decision: {FinalDecision}", projectData.ProjectId, projectData.FinalDecision);
+        _logger.LogInformation("Evaluation completed for project ID {ProjectId}. Final decision: {FinalDecision}", projectData.ProjectId, finalDecision);
 
-        return Ok(new {
-            ProjectId = projectData.ProjectId,
-            ProjectName = projectData.ProjectName,
-            FinalDecision = projectData.FinalDecision,
-            ConversationHistory = projectData.ConversationHistory
+        return Ok(new
+        {
+            projectData.ProjectId,
+            projectData.ProjectName,
+            finalDecision,
+            conversationHistory = finalDecision
         });
     }
 }

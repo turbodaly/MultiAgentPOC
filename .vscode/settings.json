@@ -1,0 +1,5 @@
+{
+    "appService.preDeployTask": "publish-release",
+    "appService.deploySubpath": "bin\\Release\\net8.0\\publish",
+    "appService.defaultWebAppToDeploy": "/subscriptions/eb0993d5-6a3a-4061-9b05-7cc698b51366/resourceGroups/MultiAgentPOC/providers/Microsoft.Web/sites/MultiAgentPOC"
+}

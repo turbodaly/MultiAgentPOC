@@ -1,0 +1,27 @@
+# Build output
+bin/
+obj/
+publish/
+*.dll
+*.exe
+*.pdb
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+
+# Azure
+.azure/
+
+# Local config & secrets
+appsettings.Local.json
+appsettings.*.Local.json
+secrets.json
+*.pfx
+
+# OS
+.DS_Store
+Thumbs.db
